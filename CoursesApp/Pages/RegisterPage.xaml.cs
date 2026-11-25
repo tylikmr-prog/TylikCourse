@@ -11,18 +11,13 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CoursesApp.Helpers;
 
 namespace CoursesApp.Pages
 {
-    /// <summary>
-    /// Логика взаимодействия для RegisterPage.xaml
-    /// </summary>
-    public partial class RegisterPage : Page
+    public partial class RegisterPage : UserControl
     {
-        public RegisterPage()
-        {
-            InitializeComponent();
-        }
+        public RegisterPage() { InitializeComponent(); }
 
         private void BtnRegister_Click(object sender, RoutedEventArgs e)
         {
@@ -30,9 +25,7 @@ namespace CoursesApp.Pages
             var pwd = pbPassword.Password;
             var name = tbFullName.Text.Trim();
 
-            if (string.IsNullOrWhiteSpace(login) ||
-                string.IsNullOrWhiteSpace(pwd) ||
-                string.IsNullOrWhiteSpace(name))
+            if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(pwd) || string.IsNullOrWhiteSpace(name))
             {
                 MessageBox.Show("Заполните все поля");
                 return;
@@ -52,14 +45,12 @@ namespace CoursesApp.Pages
             };
             Data.AppData.Users.Add(user);
 
-            LoginPage.NavigateToCabinet(user, NavigationService); 
+            LoginPage.NavigateToCabinet(user);
         }
 
         private void BtnBack_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new LoginPage());
-            NavigationService.RemoveBackEntry();
+            NavigationHelper.MainVM.CurrentPage = new LoginPage();
         }
     }
 }
-

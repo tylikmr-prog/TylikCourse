@@ -15,27 +15,26 @@ using System.Windows.Shapes;
 
 namespace CoursesApp.Pages
 {
-    /// <summary>
-    /// Логика взаимодействия для TeacherPage.xaml
-    /// </summary>
-    public partial class TeacherPage : Page
+    public partial class TeacherPage : UserControl
     {
-        private readonly User _user;
-        public TeacherPage(User user)
+        private User _user;
+
+        public TeacherPage() { InitializeComponent(); }
+
+        public TeacherPage(User user) : this()
         {
-            InitializeComponent();
             _user = user;
-            lblUserName.Text = $"Преподаватель: {_user.FullName} (логин: {_user.Login})";
+            lblUserName.Text = $"Преподаватель: {user.FullName} (логин: {user.Login})";
         }
 
         private void BtnCourses_Click(object sender, RoutedEventArgs e)
-            => NavigationService.Navigate(new CoursePage(_user));
+        {
+            NavigationHelper.MainVM.CurrentPage = new CoursePage(_user);
+        }
 
         private void BtnLogout_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.ClearJournalHistory();
-            NavigationService.Navigate(new LoginPage());
-            NavigationService.RemoveBackEntry();
+            NavigationHelper.MainVM.CurrentPage = new LoginPage();
         }
     }
 }

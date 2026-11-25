@@ -7,7 +7,7 @@ namespace CoursesApp.Data
 {
     public interface IUserRepository
     {
-        User Authenticate(string login, string password);
+        User? Authenticate(string login, string password);
         bool LoginExists(string login);
         void Add(User user);
         IEnumerable<User> GetAll();

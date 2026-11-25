@@ -13,32 +13,30 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
+
 namespace CoursesApp.Pages
 {
-    /// <summary>
-    /// Логика взаимодействия для StudentPage.xaml
-    /// </summary>
-    public partial class StudentPage : Page
+    public partial class StudentPage : UserControl
     {
-        private readonly User _user;
+        private User _user;
 
-        public StudentPage(User user)
+        public StudentPage() { InitializeComponent(); }
+
+        public StudentPage(User user) : this()
         {
-            InitializeComponent();
             _user = user;
-            lblUserName.Text = $"Студент: {_user.FullName} (логин: {_user.Login})";
+            lblUserName.Text = $"Студент: {user.FullName} (логин: {user.Login})";
         }
 
         private void BtnCourses_Click(object sender, RoutedEventArgs e)
-            => NavigationService.Navigate(new CoursePage(_user));
+        {
+            NavigationHelper.MainVM.CurrentPage = new CoursePage(_user);
+        }
 
         private void BtnLogout_Click(object sender, RoutedEventArgs e)
         {
-            // 1) очищаем журнал истории перед выходом
-            NavigationService.ClearJournalHistory();
-            // 2) на страницу входа
-            NavigationService.Navigate(new LoginPage());
-            NavigationService.RemoveBackEntry();
+            NavigationHelper.MainVM.CurrentPage = new LoginPage();
         }
     }
 }

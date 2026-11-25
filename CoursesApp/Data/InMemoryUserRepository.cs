@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CoursesApp.Data
 {
@@ -16,7 +18,7 @@ namespace CoursesApp.Data
             Add(new User { Login = "teacher", Password = "123", FullName = "Петров Пётр", Role = UserRole.Teacher });
         }
 
-        public User Authenticate(string login, string password) =>
+        public User? Authenticate(string login, string password) =>
             _users.FirstOrDefault(u => u.Login == login && u.Password == password);
 
         public bool LoginExists(string login) => _users.Any(u => u.Login == login);

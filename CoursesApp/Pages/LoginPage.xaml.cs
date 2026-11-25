@@ -11,19 +11,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CoursesApp.Helpers;
+
 
 namespace CoursesApp.Pages
-
 {
-    /// <summary>
-    /// Логика взаимодействия для LoginPage.xaml
-    /// </summary>
-    public partial class LoginPage : Page
+    public partial class LoginPage : UserControl
     {
-        public LoginPage()
-        {
-            InitializeComponent();
-        }
+        public LoginPage() { InitializeComponent(); }
 
         private void BtnLogin_Click(object sender, RoutedEventArgs e)
         {
@@ -33,24 +28,20 @@ namespace CoursesApp.Pages
                 MessageBox.Show("Неверный логин или пароль");
                 return;
             }
-            NavigateToCabinet(user, NavigationService);
+            NavigateToCabinet(user);
         }
 
         private void BtnRegister_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new RegisterPage());
-            NavigationService.RemoveBackEntry();
+            NavigationHelper.MainVM.CurrentPage = new RegisterPage();
         }
 
-        /// <summary>Единая точка перехода в кабинет по роли (используется и из RegisterPage).</summary>
-        internal static void NavigateToCabinet(User user, NavigationService nav)
+        internal static void NavigateToCabinet(User user)
         {
             if (user.Role == UserRole.Student)
-                nav.Navigate(new StudentPage(user));
+                NavigationHelper.MainVM.CurrentPage = new StudentPage(user);
             else
-                nav.Navigate(new TeacherPage(user));
-            nav.RemoveBackEntry(); // нельзя вернуться «Назад» на логин
+                NavigationHelper.MainVM.CurrentPage = new TeacherPage(user);
         }
     }
 }
-
